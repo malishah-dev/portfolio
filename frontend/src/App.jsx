@@ -1,6 +1,43 @@
+import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
+  const [isMobileFlipped, setIsMobileFlipped] = useState(false);
+
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 700px)");
+    let previousScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      if (!mobileQuery.matches) {
+        return;
+      }
+
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY === previousScrollY) {
+        return;
+      }
+
+      setIsMobileFlipped(currentScrollY > previousScrollY);
+      previousScrollY = currentScrollY;
+    };
+
+    const handleViewportChange = () => {
+      if (!mobileQuery.matches) {
+        setIsMobileFlipped(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    mobileQuery.addEventListener("change", handleViewportChange);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      mobileQuery.removeEventListener("change", handleViewportChange);
+    };
+  }, []);
+
   const skills = [
     "React.js",
     "Next.js",
@@ -13,47 +50,11 @@ function App() {
     "Python",
     "C / C++",
     "REST APIs",
-    "Data Structures",
+    "DSA",
   ];
 
   const projects = [
     {
-    const [isMobileFlipped, setIsMobileFlipped] = useState(false);
-
-    useEffect(() => {
-      const mobileQuery = window.matchMedia("(max-width: 700px)");
-      let previousScrollY = window.scrollY;
-
-      const handleScroll = () => {
-        if (!mobileQuery.matches) {
-          return;
-        }
-
-        const currentScrollY = window.scrollY;
-
-        if (currentScrollY === previousScrollY) {
-          return;
-        }
-
-        setIsMobileFlipped(currentScrollY > previousScrollY);
-        previousScrollY = currentScrollY;
-      };
-
-      const handleViewportChange = () => {
-        if (!mobileQuery.matches) {
-          setIsMobileFlipped(false);
-        }
-      };
-
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      mobileQuery.addEventListener("change", handleViewportChange);
-
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-        mobileQuery.removeEventListener("change", handleViewportChange);
-      };
-    }, []);
-
       number: "01",
       type: "Product platform",
       title: "Notes Seller",
@@ -96,7 +97,6 @@ function App() {
           </a>
         </div>
       </nav>
-              className={`portrait-flip${isMobileFlipped ? " mobile-flipped" : ""}`}
       <section className="hero shell" id="top">
         <div className="hero-copy">
           <p className="eyebrow">
@@ -124,7 +124,7 @@ function App() {
         </div>
         <div className="hero-aside" aria-label="Profile details">
           <div
-            className="portrait-flip"
+            className={`portrait-flip${isMobileFlipped ? " mobile-flipped" : ""}`}
             tabIndex="0"
             role="button"
             aria-label="Reveal Muhammad Ali Shah's developer profile"

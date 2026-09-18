@@ -153,14 +153,6 @@ h1 em,
   width: 190px;
   height: 250px;
   outline: none;
-
-  .portrait-flip:hover .portrait-card {
-    transform: none;
-  }
-
-  .portrait-flip.mobile-flipped .portrait-card {
-    transform: rotateY(180deg);
-  }
   perspective: 900px;
   transform: rotate(5deg);
   cursor: pointer;
@@ -174,6 +166,9 @@ h1 em,
 }
 .portrait-flip:hover .portrait-card,
 .portrait-flip:focus-visible .portrait-card {
+  transform: rotateY(180deg);
+}
+.portrait-flip.mobile-flipped .portrait-card {
   transform: rotateY(180deg);
 }
 .portrait-face {
@@ -430,6 +425,12 @@ h1 em,
   .portrait-flip {
     width: 150px;
     height: 190px;
+  }
+  .portrait-flip:hover .portrait-card {
+    transform: none;
+  }
+  .portrait-flip.mobile-flipped .portrait-card {
+    transform: rotateY(180deg);
   }
   .portrait-front {
     font-size: 60px;
