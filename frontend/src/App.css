@@ -153,6 +153,14 @@ h1 em,
   width: 190px;
   height: 250px;
   outline: none;
+
+  .portrait-flip:hover .portrait-card {
+    transform: none;
+  }
+
+  .portrait-flip.mobile-flipped .portrait-card {
+    transform: rotateY(180deg);
+  }
   perspective: 900px;
   transform: rotate(5deg);
   cursor: pointer;

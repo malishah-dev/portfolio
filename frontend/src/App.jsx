@@ -18,6 +18,42 @@ function App() {
 
   const projects = [
     {
+    const [isMobileFlipped, setIsMobileFlipped] = useState(false);
+
+    useEffect(() => {
+      const mobileQuery = window.matchMedia("(max-width: 700px)");
+      let previousScrollY = window.scrollY;
+
+      const handleScroll = () => {
+        if (!mobileQuery.matches) {
+          return;
+        }
+
+        const currentScrollY = window.scrollY;
+
+        if (currentScrollY === previousScrollY) {
+          return;
+        }
+
+        setIsMobileFlipped(currentScrollY > previousScrollY);
+        previousScrollY = currentScrollY;
+      };
+
+      const handleViewportChange = () => {
+        if (!mobileQuery.matches) {
+          setIsMobileFlipped(false);
+        }
+      };
+
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      mobileQuery.addEventListener("change", handleViewportChange);
+
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+        mobileQuery.removeEventListener("change", handleViewportChange);
+      };
+    }, []);
+
       number: "01",
       type: "Product platform",
       title: "Notes Seller",
@@ -60,7 +96,7 @@ function App() {
           </a>
         </div>
       </nav>
-
+              className={`portrait-flip${isMobileFlipped ? " mobile-flipped" : ""}`}
       <section className="hero shell" id="top">
         <div className="hero-copy">
           <p className="eyebrow">
